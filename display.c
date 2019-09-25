@@ -26,5 +26,6 @@ void display(char * home){
         strcpy(correctPWD,pwd);
     }
     printf("<%s@%s:%s>",getenv("USER"),name.nodename,correctPWD);
-
+    char buffer[100];
+    sprintf(buffer,"<%s@%s:%s>",getenv("USER"),name.nodename,correctPWD);
 }

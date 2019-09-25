@@ -5,8 +5,14 @@
 #include<unistd.h>
 #include<dirent.h>
 #include<fcntl.h>
+#include<signal.h>
+void handler(int sig_num){
+    signal(SIGINT,handler);
+    fflush(stdout);
+}
 int main(void)
 {
+    signal(SIGINT,handler);
     char pwd[1000];
     int pid = getpid();
     char path[1000];

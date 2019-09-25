@@ -10,7 +10,6 @@
 #include<fcntl.h> 
 #include<sys/types.h>
 #include<sys/stat.h>
-
 void execute(char ** split){
     int temp=0;
     for(int i=0;i<10;i++){
@@ -56,22 +55,15 @@ void execute(char ** split){
                 }
             }
             else{
-                char path[100];
-                sprintf(path,"/proc/%d/comm",grandchild);
-                int fd = open(path,0);
-                if(fd>0){
-                    char buffer[100];
-                    read(fd,buffer,100);
-                    buffer[strlen(buffer)-1]='\0';
-                    waitpid(grandchild,&sub,0);
-                    printf("\n%s with pid %d exited\n",buffer,grandchild-1);
-                    int local = waitpid(grandchild,&sub,1);
-                    if(WIFEXITED(sub)){
-                        printf("%s\n",strerror(WEXITSTATUS(sub)));
-                    }
-                    else{
-                        printf("abrupt\n");
-                    }
+                char * path = process[0]; 
+                waitpid(grandchild,&sub,0);
+                printf("\n%s with pid %d exited ",path,grandchild-1);
+                int local = waitpid(grandchild,&sub,1);
+                if(WIFEXITED(sub)){
+                    printf("%s\n",strerror(WEXITSTATUS(sub)));
+                }
+                else{
+                    printf("abrupt\n");
                 }
             }
         }
@@ -79,4 +71,5 @@ void execute(char ** split){
             printf("%d\n",child);
         }
     }
+    return;
 }
